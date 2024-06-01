@@ -1,0 +1,9 @@
+{
+    "workbench.editor.doubleClickTabToToggleEditorGroupSizes": "maximize",
+    "workbench.editor.sharedViewState": true,
+    "launch": {
+        
+        "configurations": [],
+        "compounds": []
+    }
+}
