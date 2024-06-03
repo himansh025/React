@@ -1,4 +1,4 @@
-import { useState ,useCallback, useEffect} from 'react'
+import { useState ,useCallback,useRef, useEffect} from 'react'
 import './App.css'
 
 function App() {
@@ -6,6 +6,9 @@ const [length,setlength]= useState(8)
 const [numberallow,setnumber]= useState(false)
 const[charallow,setchar]= useState(false)
 const[password,setpassword]= useState("")
+
+
+const passwordRef = useRef(null)
 
 
 
@@ -25,6 +28,12 @@ let pass =""
   
 },[length,numberallow,charallow,setpassword])
 
+let copyPasswordToClipboard= useCallback(()=> {
+  
+  passwordRef.current?.select();
+  passwordRef.current?.setSelectionRange(0, 16);
+   window.navigator.clipboard.writeText(password)
+},[password])
 
 useEffect( ()=>{
   generatepassword();
@@ -36,16 +45,16 @@ useEffect( ()=>{
     <div className="w-full max-w-md mx-auto shadow-md rounded-lg px-4 my-8 text-orange-500 bg-gray-500" >
      <p className="mb-3 pt-3 text-xl"> Password Generator</p>
       <div>
-        <input type="text"  value={password}  readOnly className="bg-white text-blue-500 px-2 rounded-md py-2 my-3" placeholder='Generate your password'/>
+        <input  type="text" ref={passwordRef} value={password}  readOnly className="bg-white text-blue-500 px-2 rounded-md py-2 my-3" placeholder='Generate your password'/>
 
-      <button className="ml-4 px-2 py-2">Copy</button>
+      <button onClick={copyPasswordToClipboard}  className="ml-4 px-2 py-2">Copy</button>
 
       </div>
 
 
       <div>
       
-        <input type="range" value={length} onChange={ (e)=>{setlength(e.target.value)}} max={23} min={6} className="border-solid border-black border cursor-pointer bg-black left-0 mx-4 my-5"/>
+        <input type="range" value={length} onChange={ (e)=>{setlength(e.target.value)}} max={16} min={7} className="border-solid border-black border cursor-pointer bg-black left-0 mx-4 my-5"/>
 
         <label className=" py-3">Lenght</label>
         <div className="pb-5">
